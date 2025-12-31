@@ -18,12 +18,17 @@
     "url": "https://github.com/alexdln/"
   },
   "devDependencies": {
-    "eslint": "9.38.0",
+    "eslint": "9.39.2",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.4",
     "husky": "9.1.7",
-    "prettier": "3.6.2",
-    "typescript-eslint": "8.46.2"
+    "prettier": "3.7.4",
+    "typescript-eslint": "8.51.0"
+  },
+  "resolutions": {
+    "examples-auth-intl>@nimpl/proxy-chain": "workspace:*",
+    "examples-auth5-intl>@nimpl/proxy-chain": "workspace:*",
+    "examples-base>@nimpl/proxy-chain": "workspace:*"
   },
   "license": "MIT",
   "packageManager": "pnpm@9.7.0+sha512.dc09430156b427f5ecfc79888899e1c39d2d690f004be70e05230b72cb173d96839587545d09429b55ac3c429c801b4dc3c0e002f653830a420fa2dd4e3cf9cf"

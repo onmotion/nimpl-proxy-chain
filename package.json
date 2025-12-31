@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "nimpl:proxy-chain": "pnpm --filter @nimpl/proxy-chain",
-    "lint": "eslint \"package/\"",
+    "lint": "eslint \".\"",
     "eslint": "eslint",
     "prepare": "husky"
   },

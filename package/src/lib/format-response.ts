@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { type Summary } from "./types";
+import { NEXT_PROXY_HEADER } from "./constants";
 
 export const formatResponse = (summary: Summary) => {
     const nextConfig = {
@@ -15,6 +16,10 @@ export const formatResponse = (summary: Summary) => {
         next = NextResponse.redirect(summary.destination!, nextConfig);
     } else if (summary.type === "rewrite") {
         next = NextResponse.rewrite(summary.destination!, nextConfig);
+    } else if (summary.type === "custom") {
+        next = new NextResponse(summary.body, nextConfig);
+        next.headers.delete(NEXT_PROXY_HEADER); // Stop proxying the custom response to the next middleware
+        summary.headers.delete(NEXT_PROXY_HEADER);
     } else {
         next = NextResponse.next(nextConfig);
     }

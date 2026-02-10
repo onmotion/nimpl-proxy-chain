@@ -85,16 +85,14 @@ export const collectData = async <
                 body: undefined,
             });
         } else if (next.body) {
-            if (summary.type === "json") {
-                logger.log(`Changing body between middlewares`);
-            } else {
-                logger.log(`Changing response type between middlewares: ${summary.type} -> json`);
+            if (summary.type !== "custom") {
+                logger.log(`Changing response type between middlewares: ${summary.type} -> custom`);
             }
             Object.assign(summary, {
                 type: "custom",
                 destination: undefined,
                 status: next.status,
-                statusText: summary.statusText,
+                statusText: next.statusText,
                 body: next.body,
             });
         }

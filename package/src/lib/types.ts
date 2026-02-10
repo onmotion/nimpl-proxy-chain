@@ -9,7 +9,7 @@ export type BaseRequest = {
     nextUrl: URL;
 };
 
-export type NextType = "rewrite" | "redirect" | "json" | "none" | undefined;
+export type NextType = "rewrite" | "redirect" | "json" | "none" | "custom" | undefined;
 
 export type Summary = {
     type: NextType;

@@ -7,6 +7,7 @@ import { type FINAL_SYMBOL } from "./constants";
 
 export type BaseRequest = {
     nextUrl: URL;
+    headers: Headers;
 };
 
 export type NextType = "rewrite" | "redirect" | "json" | "none" | "custom" | undefined;

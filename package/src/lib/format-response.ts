@@ -3,11 +3,16 @@ import { NextResponse } from "next/server";
 import { type Summary } from "./types";
 import { NEXT_PROXY_HEADER } from "./constants";
 
+type MiddlewareResponseInit = Parameters<typeof NextResponse.next>[0];
+
 export const formatResponse = (summary: Summary) => {
-    const nextConfig = {
+    const nextConfig: MiddlewareResponseInit = {
         status: summary.status,
         statusText: summary.statusText,
         headers: summary.headers,
+        request: {
+            headers: summary.requestHeaders,
+        },
     };
     let next: NextResponse;
     if (summary.type === "json") {

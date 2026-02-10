@@ -19,7 +19,7 @@ export const collectData = async <
         destination: req.nextUrl,
         cookies: new Map(),
         headers: new Headers(),
-        requestHeaders: new Headers(),
+        requestHeaders: new Headers(req.headers),
         status: 200,
         body: undefined,
     };

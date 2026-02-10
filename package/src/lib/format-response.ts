@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 
 import { type Summary } from "./types";
-import { NEXT_PROXY_HEADER } from "./constants";
 
 type MiddlewareResponseInit = Parameters<typeof NextResponse.next>[0];
 
@@ -23,8 +22,6 @@ export const formatResponse = (summary: Summary) => {
         next = NextResponse.rewrite(summary.destination!, nextConfig);
     } else if (summary.type === "custom") {
         next = new NextResponse(summary.body, nextConfig);
-        next.headers.delete(NEXT_PROXY_HEADER); // Stop proxying the custom response to the next middleware
-        summary.headers.delete(NEXT_PROXY_HEADER);
     } else {
         next = NextResponse.next(nextConfig);
     }

@@ -95,6 +95,7 @@ export const collectData = async <
                 statusText: next.statusText,
                 body: next.body,
             });
+            next[FINAL_SYMBOL] = true; // Mark the response as final to stop further processing in the chain
         }
 
         next.cookies.getAll().forEach((cookie) => {

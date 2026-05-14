@@ -58,8 +58,8 @@ export const collectData = async <
                 logger.log(
                     `Changing destination between middlewares: ${summary.destination} (${summary.type}) -> ${destination} (redirect)`,
                 );
-            } else if (summary.type === "json") {
-                logger.log(`Changing response type between middlewares: json -> redirect`);
+            } else if (summary.type !== "redirect") {
+                logger.log(`Changing response type between middlewares: ${summary.type} -> redirect`);
             }
             Object.assign(summary, {
                 type: "redirect",
@@ -74,8 +74,8 @@ export const collectData = async <
                 logger.log(
                     `Changing destination between middlewares: ${summary.destination} (${summary.type}) -> ${destination} (rewrite)`,
                 );
-            } else if (summary.type === "json") {
-                logger.log(`Changing response type between middlewares: json -> rewrite`);
+            } else if (summary.type !== "rewrite") {
+                logger.log(`Changing response type between middlewares: ${summary.type} -> rewrite`);
             }
             Object.assign(summary, {
                 type: "rewrite",
@@ -85,7 +85,9 @@ export const collectData = async <
                 body: undefined,
             });
         } else if (next.body) {
-            if (summary.type !== "custom") {
+            if (summary.type === "custom") {
+                logger.log("Changing body between middlewares");
+            } else {
                 logger.log(`Changing response type between middlewares: ${summary.type} -> custom`);
             }
             Object.assign(summary, {
@@ -95,7 +97,6 @@ export const collectData = async <
                 statusText: next.statusText,
                 body: next.body,
             });
-            next[FINAL_SYMBOL] = true; // Mark the response as final to stop further processing in the chain
         }
 
         next.cookies.getAll().forEach((cookie) => {

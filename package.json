@@ -1,6 +1,6 @@
 {
   "name": "nimpl-proxy-chain",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "description": "",
   "scripts": {
     "nimpl:proxy-chain": "pnpm --filter @nimpl/proxy-chain",
@@ -9,7 +9,9 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx}": ["eslint"]
+    "*.{ts,tsx,js,jsx}": [
+      "eslint"
+    ]
   },
   "repository": {
     "type": "git",

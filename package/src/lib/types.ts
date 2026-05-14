@@ -55,4 +55,5 @@ export type ChainItem<
 
 export type ChainConfig = {
     logger?: Logger | boolean | null;
+    breakOnTypes?: Exclude<NextType, "none" | undefined>[];
 };

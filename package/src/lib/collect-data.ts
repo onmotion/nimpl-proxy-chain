@@ -1,6 +1,13 @@
 import { NextResponse, type NextFetchEvent } from "next/server";
 
-import { type ChainItem, type Middleware, type ChainNextResponse, type Summary, type BaseRequest } from "./types";
+import {
+    type ChainItem,
+    type Middleware,
+    type ChainNextResponse,
+    type Summary,
+    type BaseRequest,
+    type NextType,
+} from "./types";
 import { type Logger } from "./logger";
 import { INTERNAL_HEADERS, FINAL_SYMBOL, REWRITE_HEADER, REDIRECT_HEADER } from "./constants";
 
@@ -13,6 +20,7 @@ export const collectData = async <
     event: NextFetchEventType,
     chainItems: ChainItem<RequestType, ResponseType, NextFetchEventType>[],
     logger: Logger,
+    breakOnTypes: Exclude<NextType, "none" | undefined>[] = [],
 ) => {
     const summary: Summary = {
         type: "none",
@@ -68,6 +76,7 @@ export const collectData = async <
                 statusText: summary.statusText,
                 body: undefined,
             });
+            if (breakOnTypes.includes("redirect")) next[FINAL_SYMBOL] = true;
         } else if (next.headers.has(REWRITE_HEADER)) {
             const destination = next.headers.get(REWRITE_HEADER) as string;
             if (summary.destination !== destination || summary.type === "redirect") {
@@ -84,6 +93,7 @@ export const collectData = async <
                 statusText: summary.statusText,
                 body: undefined,
             });
+            if (breakOnTypes.includes("rewrite")) next[FINAL_SYMBOL] = true;
         } else if (next.body) {
             if (summary.type === "custom") {
                 logger.log("Changing body between middlewares");
@@ -97,6 +107,7 @@ export const collectData = async <
                 statusText: next.statusText,
                 body: next.body,
             });
+            if (breakOnTypes.includes("custom")) next[FINAL_SYMBOL] = true;
         }
 
         next.cookies.getAll().forEach((cookie) => {

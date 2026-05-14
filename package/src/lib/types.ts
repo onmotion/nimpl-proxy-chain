@@ -10,7 +10,7 @@ export type BaseRequest = {
     headers: Headers;
 };
 
-export type NextType = "rewrite" | "redirect" | "json" | "none" | "custom" | undefined;
+export type NextType = "rewrite" | "redirect" | "none" | "custom" | undefined;
 
 export type Summary = {
     type: NextType;

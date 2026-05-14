@@ -14,9 +14,7 @@ export const formatResponse = (summary: Summary) => {
         },
     };
     let next: NextResponse;
-    if (summary.type === "json") {
-        next = NextResponse.json(summary.body);
-    } else if (summary.type === "redirect") {
+    if (summary.type === "redirect") {
         next = NextResponse.redirect(summary.destination!, nextConfig);
     } else if (summary.type === "rewrite") {
         next = NextResponse.rewrite(summary.destination!, nextConfig);

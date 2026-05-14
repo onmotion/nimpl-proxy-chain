@@ -73,7 +73,7 @@ export const collectData = async <
                 type: "redirect",
                 destination,
                 status: next.status,
-                statusText: summary.statusText,
+                statusText: next.statusText || summary.statusText,
                 body: undefined,
             });
             if (breakOnTypes.includes("redirect")) next[FINAL_SYMBOL] = true;
@@ -90,7 +90,7 @@ export const collectData = async <
                 type: "rewrite",
                 destination,
                 status: next.status,
-                statusText: summary.statusText,
+                statusText: next.statusText || summary.statusText,
                 body: undefined,
             });
             if (breakOnTypes.includes("rewrite")) next[FINAL_SYMBOL] = true;
@@ -104,7 +104,7 @@ export const collectData = async <
                 type: "custom",
                 destination: undefined,
                 status: next.status,
-                statusText: next.statusText,
+                statusText: next.statusText || summary.statusText,
                 body: next.body,
             });
             if (breakOnTypes.includes("custom")) next[FINAL_SYMBOL] = true;
@@ -114,10 +114,16 @@ export const collectData = async <
             summary.cookies.set(cookie.name, cookie);
         });
         next.headers.forEach((value, key) => {
-            if (INTERNAL_HEADERS.includes(key.toLowerCase())) return;
+            const lowerKey = key.toLowerCase();
+            if (INTERNAL_HEADERS.includes(lowerKey)) return;
 
-            if (key.toLowerCase().startsWith("x-middleware-request-")) {
-                summary.requestHeaders.set(key.replace("x-middleware-request-", ""), value);
+            if (lowerKey.startsWith("x-middleware-request-")) {
+                summary.requestHeaders.set(lowerKey.replace("x-middleware-request-", ""), value);
+                return;
+            }
+
+            if (lowerKey === "set-cookie") {
+                summary.headers.append(key, value);
                 return;
             }
 

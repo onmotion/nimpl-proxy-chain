@@ -41,7 +41,7 @@
   "license": "MIT",
   "devDependencies": {
     "next": "16.1.1",
-    "tsup": "^8.5.1",
+    "tsup": "8.5.1",
     "typescript": "5.9.3"
   },
   "peerDependencies": {
